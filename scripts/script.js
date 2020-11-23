@@ -62,7 +62,7 @@ document.addEventListener('keyup', (event) => {
 list.addEventListener('change', (event) => {
     let valueLabel = list.querySelector('[for=' + event.target.getAttribute('id') + ']').innerHTML;
     let changeItem = todoList.find( item => item.todo === valueLabel);
-    
+
     changeItem.checked = !changeItem.checked;
     localStorage.setItem('todo', JSON.stringify(todoList));
 
