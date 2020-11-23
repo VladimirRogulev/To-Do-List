@@ -2,7 +2,7 @@ const addCase = document.querySelector('.case');
 const addButton = document.querySelector('.add');
 const list = document.querySelector('.list');
 const clear = document.querySelector('.clear');
-let unique = false;
+let unique;
 let todoList = [];
 
 const displayCases = () => 
@@ -61,13 +61,11 @@ document.addEventListener('keyup', (event) => {
 
 list.addEventListener('change', (event) => {
     let valueLabel = list.querySelector('[for=' + event.target.getAttribute('id') + ']').innerHTML;
+    let changeItem = todoList.find( item => item.todo === valueLabel);
+    
+    changeItem.checked = !changeItem.checked;
+    localStorage.setItem('todo', JSON.stringify(todoList));
 
-    todoList.forEach( (item) => {
-        if(item.todo === valueLabel){
-            item.checked = !item.checked;
-            localStorage.setItem('todo', JSON.stringify(todoList));
-        }
-    });    
 });
 
 clear.addEventListener('click', handleClear);
