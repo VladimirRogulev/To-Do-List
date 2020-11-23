@@ -1,99 +1,73 @@
-const list = document.getElementById("list");
-const input = document.getElementById("input");
-const clear = document.getElementById("clear");
+const addCase = document.querySelector('.case');
+const addButton = document.querySelector('.add');
+const list = document.querySelector('.list');
+const clear = document.querySelector('.clear');
+let unique = false;
+let todoList = [];
 
-const check = "fa-check-circle";
-const uncheck = "fa-circle";
-const lineTrough = "line-through";
+const displayCases = () => 
+    list.innerHTML = todoList.reduce( (acc, {checked, todo}, i) => acc + `
+        <li>
+            <input class='check' type='checkbox' id='item_${i}' ${checked ? 'checked' : ''}>
+            <label for='item_${i}'>${todo}</label>
+            <img class='trash' onclick='handleDeleteItem()' id='${i}' src='img/trash-alt-regular.svg'>
+        </li>
+        `
+      ,'');
 
-let LIST, id;
-
-let data = localStorage.getItem("TODO");
-
-if (data) {
-    LIST = JSON.parse(data);
-    id = LIST.length; 
-    loadList(LIST); 
-} else {
-    LIST = [];
-    id = 0;
-}
-
-function loadList(array){
-    array.forEach(function(item){
-        addToDo(item.name, item.id, item.done, item.trash);
-    });
-}
-
-function addToDo(toDo, id, done, trash){
+const handleDeleteItem = () => {
+    const id = event.target.getAttribute('id');
     
-    if (trash) { 
-        return; 
-    };
-    
-    const made = done ? check : uncheck;
-    const line = done ? lineTrough : "";
-    
-    const item = `<li class="item">
-                    <i class="сheckbox far ${made}" job="complete" id="${id}"></i>
-                    <p class="text ${line}">${toDo}</p>
-                    <i class="trash far fa-trash-alt" job="delete" id="${id}"></i>
-                  </li>
-                `;
-    
-    list.insertAdjacentHTML("beforeend", item);
-}
+    todoList.splice(id, 1);
+    displayCases();
+    localStorage.setItem('todo', JSON.stringify(todoList));
+};
 
-document.addEventListener("keyup", function(event){
-    if(event.keyCode == 13){
-        const toDo = input.value;
-        
-        if(toDo){
-            addToDo(toDo, id, false, false);
-            
-            LIST.push({
-                name : toDo,
-                id : id,
-                done : false,
-                trash : false
-            });
-            
-            localStorage.setItem("TODO", JSON.stringify(LIST));
-            
-            id++;
-        }
-        input.value = "";
-    }
-});
-
-function completeToDo(element){
-    element.classList.toggle(check);
-    element.classList.toggle(uncheck);
-    element.parentNode.querySelector(".text").classList.toggle(lineTrough);
-    
-    LIST[element.id].done = LIST[element.id].done ? false : true;
-}
-
-function removeToDo(element){
-    element.parentNode.parentNode.removeChild(element.parentNode);
-    
-    LIST[element.id].trash = true;
-}
-
-list.addEventListener("click", function(event){
-    const element = event.target;
-    const elementJob = element.attributes.job.value;
-    
-    if (elementJob == "complete") {
-        completeToDo(element);
-    } else if (elementJob == "delete") {
-        removeToDo(element);
-    }
-    
-    localStorage.setItem("TODO", JSON.stringify(LIST));
-})
-
-clear.addEventListener("click", function(){
+const handleClear = () => {
     localStorage.clear();
     location.reload();
+};
+
+if (localStorage.getItem('todo')) {
+    todoList = JSON.parse(localStorage.getItem('todo'));
+    displayCases();
+}
+
+document.addEventListener('keyup', (event) => {
+    const newTodo = {
+        todo: addCase.value,
+        checked: false
+    };
+
+    if (event.key === 'Enter'){
+        if(!addCase.value) { 
+            return false;
+        }
+
+        unique = todoList.find( item => addCase.value === item.todo);
+
+        if(unique) {
+            return false;
+        }
+        
+        todoList.push(newTodo);
+        displayCases();
+        localStorage.setItem('todo', JSON.stringify(todoList));
+        addCase.value = '';
+
+        return true;
+    }
 });
+
+list.addEventListener('change', (event) => {
+    let valueLabel = list.querySelector('[for=' + event.target.getAttribute('id') + ']').innerHTML;
+
+    todoList.forEach( (item) => {
+        if(item.todo === valueLabel){
+            item.checked = !item.checked;
+            localStorage.setItem('todo', JSON.stringify(todoList));
+        }
+    });    
+});
+
+clear.addEventListener('click', handleClear);

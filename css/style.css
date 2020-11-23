@@ -1,49 +1,28 @@
-.container{
+.container {
     padding: 10px;
     width: 600px;
+    min-height: 350px;
     margin: 0 auto;
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
     user-select: none;
 }
 
-.content-area{
+.content-area {
     width: 600px;
-    height: 350px;
-    max-height: 350px;
+    min-height: 350px;
     background-color: #ffffff;
-    overflow: auto;
 }
 
-.content-area ul{
+.content-area ul {
     padding: 0;
     margin: 0;
 }
 
-.item{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    max-width: 600px;
-    height: 45px;
-    min-height: 45px;
-    border-bottom: 1px solid rgba(0,0,0,0.1);
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    pointer-events: none;
-}
-
-.сheckbox{
-    font-size: 25px;
-    margin: 10px 0 0 10px; 
-    pointer-events: auto;
-}
-
-.сheckbox:hover{
+.сheckbox:hover {
     cursor: pointer;
 }
 
-.text{
+.text {
     padding: 0;
     margin: 0;
     font-size: 25px;
@@ -51,27 +30,28 @@
     margin-top: 10px;
 }
 
-.trash{
-    font-size: 25px;
-    margin: 10px 10px 0 0;
-    pointer-events: auto;
+.list li {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 5px 0 5px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.25);
 }
 
-.fa-check-circle{
-    color:#6eb200;
+.trash {
+    height: 20px;
+    width: 20px;
 }
 
-.line-through{
+.trash:hover {
+    cursor: pointer;
+}
+.line-through {
     text-decoration: line-through;
     color : #cccccc;
 }
 
-.trash:hover{
-    color: #af0000;
-    cursor: pointer;
-}
-
-.add-area{
+.add-area {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -79,10 +59,10 @@
     height: 40px;
     background-color: #ffffff;
     padding: 10px;
-    border-top: 1px solid rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 
-.add-area input{
+.add-area input {
     height: 35px;
     width: 550px;
     background-color: transparent;
@@ -92,12 +72,15 @@
     padding-left: 10px;
 }
 
+.check:hover {
+    cursor: pointer;
+}
+
 .clear {
-    font-size: 25px;
-    margin: 7px 10px 0 0;
+    width: 40px;
+    border-radius: 20px;
 }
 
 .clear:hover {
-    color: #af0000;
     cursor: pointer;
 }
