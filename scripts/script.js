@@ -2,6 +2,7 @@ const addCase = document.querySelector('.case');
 const addButton = document.querySelector('.add');
 const list = document.querySelector('.list');
 const clear = document.querySelector('.clear');
+const error = document.querySelector('.error');
 let unique;
 let todoList = [];
 
@@ -33,6 +34,11 @@ if (localStorage.getItem('todo')) {
     displayCases();
 }
 
+document.addEventListener('keydown', () => {
+    error.innerHTML = '';
+    addCase.style.border = 'none';
+});
+
 document.addEventListener('keyup', (event) => {
     const newTodo = {
         todo: addCase.value,
@@ -40,13 +46,17 @@ document.addEventListener('keyup', (event) => {
     };
 
     if (event.key === 'Enter'){
-        if(!addCase.value) { 
+        if(!addCase.value) {
+            addCase.style.border = '2px solid red'; 
+            error.innerHTML = 'The input field is empty!';
             return false;
         }
 
         unique = todoList.find( item => addCase.value === item.todo);
 
         if(unique) {
+            addCase.style.border = '2px solid red'; 
+            error.innerHTML = 'This case already exists!';
             return false;
         }
         

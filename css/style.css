@@ -63,8 +63,8 @@
 }
 
 .add-area input {
-    height: 35px;
-    width: 550px;
+    height: 40px;
+    width: 530px;
     background-color: transparent;
     border: none;
     outline: none;
@@ -77,10 +77,16 @@
 }
 
 .clear {
+    margin-left: 10px;
     width: 40px;
     border-radius: 20px;
 }
 
 .clear:hover {
     cursor: pointer;
+}
+
+.error {
+    color: red;
+    height: 20px;
 }
