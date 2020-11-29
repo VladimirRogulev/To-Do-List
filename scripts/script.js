@@ -29,17 +29,12 @@ const handleClear = () => {
     location.reload();
 };
 
-if (localStorage.getItem('todo')) {
-    todoList = JSON.parse(localStorage.getItem('todo'));
-    displayCases();
-}
-
-document.addEventListener('keydown', () => {
+const handleDeleteErrorMessage = () => {
     error.innerHTML = '';
     addCase.style.border = 'none';
-});
+};
 
-document.addEventListener('keyup', (event) => {
+const handleAddElement = (event) => {
     const newTodo = {
         todo: addCase.value,
         checked: false
@@ -67,15 +62,22 @@ document.addEventListener('keyup', (event) => {
 
         return true;
     }
-});
+};
 
-list.addEventListener('change', (event) => {
-    let valueLabel = list.querySelector('[for=' + event.target.getAttribute('id') + ']').innerHTML;
-    let changeItem = todoList.find( item => item.todo === valueLabel);
+const handleChangeChecked = () => {
+    const valueLabel = list.querySelector('[for=' + event.target.getAttribute('id') + ']').innerHTML;
+    const changeItem = todoList.find( item => item.todo === valueLabel);
 
     changeItem.checked = !changeItem.checked;
     localStorage.setItem('todo', JSON.stringify(todoList));
+};
 
-});
+if (localStorage.getItem('todo')) {
+    todoList = JSON.parse(localStorage.getItem('todo'));
+    displayCases();
+}
 
+document.addEventListener('keydown', handleDeleteErrorMessage);
+document.addEventListener('keyup', handleAddElement);
 clear.addEventListener('click', handleClear);
+list.addEventListener('change', handleChangeChecked);
